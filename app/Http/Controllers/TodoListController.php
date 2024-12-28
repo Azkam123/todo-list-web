@@ -12,7 +12,7 @@ class TodoListController
      */
     public function index()
     {
-        //
+        return view('welcome');
     }
 
     /**

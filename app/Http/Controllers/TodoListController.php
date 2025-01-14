@@ -12,7 +12,8 @@ class TodoListController
      */
     public function index()
     {
-        return view('welcome');
+        $notes = TodoList::all();
+        return view('welcome', compact('notes'));
     }
 
     /**
@@ -20,7 +21,7 @@ class TodoListController
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -29,13 +30,13 @@ class TodoListController
     public function store(Request $request)
     {
         $data = $request->validate([
-            'note' => 'required|string'
+            'note' => 'required|string|max:50'
         ]);
 
         TodoList::create([
             'note' => $data['note'],
         ]);
-        return redirect('/')->with('succes',' data berhasil ditambahkan');
+        return redirect()->route('todo.index');
     }
 
     /**
@@ -49,17 +50,26 @@ class TodoListController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(TodoList $todoList)
+    public function edit(string $id)
     {
-        //
+    $note = TodoList::findOrFail($id);
+        return view('edit', compact('note'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TodoList $todoList)
+    public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'note' => 'required|string|max:50'
+        ]);
+
+        $note = $request->only(['note']);
+        $todoList = TodoList::findOrFail($id);
+        $todoList->update([$note]);
+
+        return redirect()->route('todo.index');
     }
 
     /**
@@ -67,6 +77,7 @@ class TodoListController
      */
     public function destroy(TodoList $todoList)
     {
-        //
+        $todoList->delete();
+        return redirect()->route('todo.index');
     }
 }

@@ -34,25 +34,30 @@
             <ul id="todo-list" class="space-y-4">
                 <!-- Example todo item -->
                 <li class="flex items-center justify-between bg-gray-50 p-3 rounded-lg shadow">
-                    <span class="text-gray-700">{{$note->note}}</span>
+                    <span class="text-gray-700">{{ $note->note }}</span>
                     <div class="flex items-center space-x-2">
                         <!-- Edit Button (Pencil Icon) -->
-                        <button class="text-yellow-500 hover:text-yellow-700 focus:outline-none">
+                        <a href="{{ route('todo.edit', ['todo' => $note->id]) }}"
+                            class="text-yellow-500 hover:text-yellow-700 focus:outline-none">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor" class="w-5 h-5">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M16 3l5 5-13 13H3v-5L16 3z"></path>
                             </svg>
-                        </button>
+                        </a>
 
                         <!-- Delete Button (Trash Icon) -->
-                        <button class="text-red-500 hover:text-red-700 focus:outline-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </button>
+                        <form action="{{ route('todo.destroy', ['todo' => $note]) }}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </form>
                     </div>
                 </li>
             </ul>

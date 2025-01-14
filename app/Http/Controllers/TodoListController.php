@@ -52,7 +52,7 @@ class TodoListController
      */
     public function edit(string $id)
     {
-    $note = TodoList::findOrFail($id);
+        $note = TodoList::findOrFail($id);
         return view('edit', compact('note'));
     }
 
@@ -67,7 +67,7 @@ class TodoListController
 
         $note = $request->only(['note']);
         $todoList = TodoList::findOrFail($id);
-        $todoList->update([$note]);
+        $todoList->update($note);
 
         return redirect()->route('todo.index');
     }
@@ -75,9 +75,10 @@ class TodoListController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TodoList $todoList)
+    public function destroy(TodoList $todoList, string $id)
     {
-        $todoList->delete();
+        $note = $todoList->findOrFail($id);
+        $note->delete();
         return redirect()->route('todo.index');
     }
 }

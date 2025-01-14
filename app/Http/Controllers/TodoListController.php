@@ -28,7 +28,14 @@ class TodoListController
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'note' => 'required|string'
+        ]);
+
+        TodoList::create([
+            'note' => $data['note'],
+        ]);
+        return redirect('/')->with('succes',' data berhasil ditambahkan');
     }
 
     /**
